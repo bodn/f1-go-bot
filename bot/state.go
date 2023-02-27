@@ -15,11 +15,13 @@ var (
 
 type botStateType struct {
 	// define your fields here
-	CurrentSeason         int
-	RaceSchedule          []ergast.Race
-	MostRecentRace        ergast.Race
-	MostRecentRaceResults []ergast.RaceResult
-	NextRace              ergast.Race
+	CurrentSeason               int
+	RaceSchedule                []ergast.Race
+	MostRecentRace              ergast.Race
+	MostRecentRaceResults       []ergast.RaceResult
+	NextRace                    ergast.Race
+	MostRecentQualifyingResults []ergast.QualifyingResult
+	MostRecentSprintResults     []ergast.SprintResult
 }
 
 func initMyGlobalConstant() botStateType {
@@ -27,7 +29,7 @@ func initMyGlobalConstant() botStateType {
 
 	// Season is equal to the year
 	// currentYear := time.Now().Year()
-	currentYear := 2023
+	currentYear := 2022
 	instance.CurrentSeason = currentYear
 
 	// get the race schedule
@@ -35,6 +37,7 @@ func initMyGlobalConstant() botStateType {
 
 	// get the most recent race details
 	instance.MostRecentRace = findMostRecentRace(instance.RaceSchedule)
+	// instance.MostRecentRace = instance.RaceSchedule[9]
 
 	// get the most recent race result
 	mostRecentRaceRound, err := strconv.Atoi(instance.MostRecentRace.Round)
@@ -44,6 +47,14 @@ func initMyGlobalConstant() botStateType {
 
 	if mostRecentRaceRound != 0 {
 		instance.MostRecentRaceResults = ergast.GetRaceResults(instance.CurrentSeason, mostRecentRaceRound)
+		if instance.MostRecentRace.Sprint != nil {
+			instance.MostRecentSprintResults = ergast.GetSprintResults(instance.CurrentSeason, mostRecentRaceRound)
+		}
+
+		if instance.MostRecentRace.Qualifying != nil {
+			instance.MostRecentQualifyingResults = ergast.GetQualifyingResults(instance.CurrentSeason, mostRecentRaceRound)
+		}
+
 	}
 
 	// get the next race details

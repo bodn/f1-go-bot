@@ -10,5 +10,6 @@ func main() {
 	fmt.Println(bot.State.CurrentSeason)
 	fmt.Println(bot.State.MostRecentRace)
 	fmt.Println(len(bot.State.MostRecentRaceResults))
-	fmt.Println(bot.State.NextRace)
+	fmt.Println(len(bot.State.MostRecentQualifyingResults))
+	fmt.Println(len(bot.State.MostRecentSprintResults))
 }

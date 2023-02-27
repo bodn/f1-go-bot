@@ -26,3 +26,27 @@ func GetRaceResults(year int, round int) []RaceResult {
 	// Pick the first (only) element from that array
 	return data.MRData.RaceTable.Races[0].Results
 }
+
+func GetQualifyingResults(year int, round int) []QualifyingResult {
+	// BASE_URL/2023/4/qualifying.json
+	requestUrl := fmt.Sprintf("%s/%d/%d/qualifying%s", BASE_URL, year, round, RESPONSE_TYPE)
+
+	var data ErgastQualifyingResultsResponse
+	SendRequest(requestUrl, &data)
+
+	// For some reason Ergast returns an array of Races in the response.
+	// Pick the first (only) element from that array
+	return data.MRData.RaceTable.Races[0].QualifyingResults
+}
+
+func GetSprintResults(year int, round int) []SprintResult {
+	// BASE_URL/2023/4/sprint.json
+	requestUrl := fmt.Sprintf("%s/%d/%d/sprint%s", BASE_URL, year, round, RESPONSE_TYPE)
+
+	var data ErgastSprintResultsResponse
+	SendRequest(requestUrl, &data)
+
+	// For some reason Ergast returns an array of Races in the response.
+	// Pick the first (only) element from that array
+	return data.MRData.RaceTable.Races[0].SprintResults
+}
